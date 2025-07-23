@@ -1,12 +1,11 @@
 services:
   - type: web
     name: tera-bot
-    env: python
+    runtime: docker
     plan: free
-    buildCommand: |
-      apt-get update && apt-get install -y aria2
-      pip install -r requirements.txt
-    startCommand: bash start.sh
+    repo: https://github.com/CPUZ-0001/TERA-BOT.git
+    dockerfilePath: Dockerfile
+    dockerCommand: bash start.sh
     envVars:
       - key: BOT_TOKEN
         sync: false
