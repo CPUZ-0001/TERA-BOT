@@ -9,7 +9,7 @@ if command -v aria2c &> /dev/null; then
     aria2c \
         --enable-rpc \
         --rpc-listen-port=6800 \
-        --rpc-secret=your_password \
+        --rpc-secret=62cec009933c5b9e791e3e56cd9bc463 \
         --daemon \
         --log=/tmp/aria2.log \
         --check-certificate=false
