@@ -1,20 +1,21 @@
 #!/bin/bash
 
-# Install aria2 if not present (Render.com specific)
-if ! command -v aria2c &> /dev/null; then
-    echo "Installing aria2..."
-    apt-get update && apt-get install -y aria2
-fi
+# Try installing aria2 without sudo (Render doesn't allow sudo)
+apt-get update -o Debug::pkgProblemResolver=yes -o Debug::Acquire::http=yes
+apt-get install -y aria2 || echo "Aria2 installation failed, continuing anyway..."
 
-# Start aria2 in background with RPC enabled
-aria2c \
-    --enable-rpc \
-    --rpc-listen-all=false \
-    --rpc-listen-port=6800 \
-    --rpc-allow-origin-all \
-    --daemon \
-    --log=/var/log/aria2.log \
-    --check-certificate=false
+# Start aria2 in the background if available
+if command -v aria2c &> /dev/null; then
+    aria2c \
+        --enable-rpc \
+        --rpc-listen-port=6800 \
+        --rpc-secret=your_password \
+        --daemon \
+        --log=/tmp/aria2.log \
+        --check-certificate=false
+else
+    echo "Warning: aria2c not available, download features will be limited"
+fi
 
 # Start your Python bot
 python3 terabox.py
