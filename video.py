@@ -13,7 +13,7 @@ aria2 = aria2p.API(
     aria2p.Client(
         host="http://localhost",
         port=6800,
-        secret="62cec009933c5b9e791e3e56cd9bc463"
+        secret=""
     )
 )
 
