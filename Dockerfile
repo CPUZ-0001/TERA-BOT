@@ -1,14 +1,21 @@
 FROM python:3.9-slim
 
-# Install aria2 and dependencies
-RUN apt-get update && apt-get install -y aria2
+# Install aria2
+RUN apt-get update && \
+    apt-get install -y aria2 && \
+    rm -rf /var/lib/apt/lists/*
 
-# Create working directory
+# Set working directory
 WORKDIR /app
+
+# Copy all files to container
 COPY . .
 
-# Install Python dependencies
-RUN pip install -r requirements.txt
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Start both services
-CMD ["sh", "-c", "aria2c --enable-rpc --rpc-listen-port=6800 --daemon && python3 terabox.py"]
+# Make start.sh executable
+RUN chmod +x start.sh
+
+# Run startup script
+CMD ["bash", "start.sh"]
